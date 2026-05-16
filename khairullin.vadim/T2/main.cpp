@@ -20,6 +20,17 @@ namespace khairullin {
     IntLL key1;
     Complex key2;
     std::string key3;
+
+    DataStruct():
+      key1(IntLL()),
+      key2(Complex()),
+      key3("")
+    {};
+    DataStruct(IntLL m, Complex c, std::string s):
+    key1(m),
+    key2(c),
+    key3(s)
+    {}
   };
 
   class IOGuard {
@@ -36,7 +47,7 @@ namespace khairullin {
   };
 
   struct Delimeter {
-    std::string expected;
+    char expected;
   };
 
   std::istream & operator>>(std::istream & is, Delimeter && d);
@@ -46,16 +57,19 @@ namespace khairullin {
   std::istream & operator>>(std::istream & is, Complex & c);
   std::ostream & operator<<(std::ostream & is, Complex c);
   std::istream & operator>>(std::istream & is, DataStruct & d);
-  std::ostream & operator<<(std::ostream & os, DataStruct d);
+  std::ostream & operator<<(std::ostream & os, const DataStruct & d);
 }
 
 int main()
 {
-  std::vector< khairullin::IntLL > v;
-  using itt_t = std::istream_iterator< khairullin::IntLL >;
+  /*std::vector< khairullin::DataStruct > v;
+  using itt_t = std::istream_iterator< khairullin::DataStruct >;
   std::copy(itt_t{std::cin}, itt_t{}, std::back_inserter(v));
-  using ott_t = std::ostream_iterator< khairullin::IntLL >;
-  std::copy(std::begin(v), std::end(v), ott_t{std::cout, "\n"});
+  using ott_t = std::ostream_iterator< khairullin::DataStruct >;
+  std::copy(std::begin(v), std::end(v), ott_t{std::cout, "\n"});*/
+  khairullin::DataStruct d;
+  std::cin >> d;
+  std::cout << d;
 }
 
 std::istream & khairullin::operator>>(std::istream & is, Delimeter && d)
@@ -64,7 +78,7 @@ std::istream & khairullin::operator>>(std::istream & is, Delimeter && d)
   if (!s) {
     return is;
   }
-  std::string w = "";
+  char w = 0;
   is >> w;
   if (is && d.expected != w) {
     is.setstate(std::ios::failbit);
@@ -78,7 +92,7 @@ std::istream & khairullin::operator>>(std::istream & is, IntLL & u)
   if (!s) {
     return is;
   }
-  return is >> u.u >> Delimeter{"ll"};
+  return is >> u.u;
 }
 
 std::ostream & khairullin::operator<<(std::ostream & os, IntLL u)
@@ -87,7 +101,8 @@ std::ostream & khairullin::operator<<(std::ostream & os, IntLL u)
   if (!s) {
     return os;
   }
-  os << u.u << "ll";
+  IOGuard guard(os);
+  os << u.u;
   return os;
 }
 
@@ -97,7 +112,7 @@ std::istream & khairullin::operator>>(std::istream & is, Complex & c)
   if (!s) {
     return is;
   }
-  return is >> Delimeter{"#c"} >> c.c;
+  return is >> c.c;
 }
 
 std::ostream & khairullin::operator<<(std::ostream & os, Complex c)
@@ -108,6 +123,55 @@ std::ostream & khairullin::operator<<(std::ostream & os, Complex c)
   }
   IOGuard guard(os);
   return os << c.c;
+}
+
+std::istream & khairullin::operator>>(std::istream & is, DataStruct & d)
+{
+  std::istream::sentry s(is);
+  if (!s) {
+    return is;
+  }
+  is >> Delimeter{'('};
+  bool isKey1 = false, isKey2 = false, isKey3 = false;
+  for (size_t i = 0; i < 3; i++) {
+    std::string key = "";
+    if (!is) {
+      return is;
+    }
+    is >> key;
+    if (key == ":key1" && !isKey1) {
+      is >> std::ws >> d.key1 >> Delimeter{'l'} >> Delimeter{'l'};
+      isKey1 = true;
+    }
+    else if (key == ":key2" && !isKey2) {
+      is >> std::ws >> Delimeter{'#'} >> Delimeter{'c'} >> d.key2;
+      isKey2 = true;
+    }
+    else if (key == ":key3" && !isKey3) {
+      is >> std::ws >> std::quoted(d.key3);
+      isKey3 = true;
+    }
+    else {
+      is.setstate(std::ios::failbit);
+      return is;
+    }
+  }
+  is >> Delimeter{':'} >> Delimeter{')'};
+  return is;
+}
+
+std::ostream & khairullin::operator<<(std::ostream & os, const DataStruct & d)
+{
+  std::ostream::sentry s(os);
+  if (!s) {
+    return os;
+  }
+  IOGuard guard(os);
+  os << "(:key1 ";
+  os << d.key1 << "ll";
+  os << ":key2 " << "#c" << d.key2;
+  os << ":key3 \"" << d.key3 << "\":)";
+  return os;
 }
 
 khairullin::IOGuard::IOGuard(std::basic_ios< char > & s):
