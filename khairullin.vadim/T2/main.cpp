@@ -25,12 +25,15 @@ namespace khairullin {
       key1(IntLL()),
       key2(Complex()),
       key3("")
-    {};
+    {
+    };
+
     DataStruct(IntLL m, Complex c, std::string s):
-    key1(m),
-    key2(c),
-    key3(s)
-    {}
+      key1(m),
+      key2(c),
+      key3(s)
+    {
+    }
   };
 
   class IOGuard {
@@ -58,18 +61,24 @@ namespace khairullin {
   std::ostream & operator<<(std::ostream & is, Complex c);
   std::istream & operator>>(std::istream & is, DataStruct & d);
   std::ostream & operator<<(std::ostream & os, const DataStruct & d);
+  bool operator<(const IntLL & a, const IntLL & b);
+  bool operator==(const IntLL & a, const IntLL & b);
+  bool operator!=(const IntLL & a, const IntLL & b);
+  bool operator<(const Complex & a, const Complex & b);
+  bool operator==(const Complex & a, const Complex & b);
+  bool operator!=(const Complex & a, const Complex & b);
+  bool myLess(const DataStruct & d1, const DataStruct & d2);
 }
 
 int main()
 {
-  /*std::vector< khairullin::DataStruct > v;
+  std::vector< khairullin::DataStruct > v;
   using itt_t = std::istream_iterator< khairullin::DataStruct >;
   std::copy(itt_t{std::cin}, itt_t{}, std::back_inserter(v));
+  std::sort(v.begin(), v.end(), khairullin::myLess);
+  auto it = std::unique(v.begin(), v.end());
   using ott_t = std::ostream_iterator< khairullin::DataStruct >;
-  std::copy(std::begin(v), std::end(v), ott_t{std::cout, "\n"});*/
-  khairullin::DataStruct d;
-  std::cin >> d;
-  std::cout << d;
+  std::copy(std::begin(v), std::end(v), ott_t{std::cout, "\n"});
 }
 
 std::istream & khairullin::operator>>(std::istream & is, Delimeter && d)
@@ -140,19 +149,21 @@ std::istream & khairullin::operator>>(std::istream & is, DataStruct & d)
     }
     is >> key;
     if (key == ":key1" && !isKey1) {
-      is >> std::ws >> d.key1 >> Delimeter{'l'} >> Delimeter{'l'};
+      char a = 0, b = 0;
+      is >> std::ws >> d.key1 >> a >> b;
+      if (a != b && (a == 'L' || a == 'l')) {
+        is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+        return is;
+      }
       isKey1 = true;
-    }
-    else if (key == ":key2" && !isKey2) {
+    } else if (key == ":key2" && !isKey2) {
       is >> std::ws >> Delimeter{'#'} >> Delimeter{'c'} >> d.key2;
       isKey2 = true;
-    }
-    else if (key == ":key3" && !isKey3) {
+    } else if (key == ":key3" && !isKey3) {
       is >> std::ws >> std::quoted(d.key3);
       isKey3 = true;
-    }
-    else {
-      is.setstate(std::ios::failbit);
+    } else {
+      is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
       return is;
     }
   }
@@ -174,13 +185,52 @@ std::ostream & khairullin::operator<<(std::ostream & os, const DataStruct & d)
   return os;
 }
 
+bool khairullin::myLess(const DataStruct & d1, const DataStruct & d2)
+{
+  if (d1.key1 != d2.key1) {
+    return d1.key1 < d2.key1;
+  }
+  if (d1.key2 != d2.key2) {
+    return d1.key2 < d2.key2;
+  }
+  if (d1.key3 != d2.key3) {
+    return d1.key3 < d2.key3;
+  }
+}
+
+bool khairullin::operator<(const IntLL & a, const IntLL & b)
+{
+  return a.u < b.u;
+}
+bool khairullin::operator==(const IntLL & a, const IntLL & b)
+{
+  return a.u == b.u;
+}
+bool khairullin::operator!=(const IntLL & a, const IntLL & b)
+{
+  return a.u != b.u;
+}
+bool khairullin::operator<(const Complex & a, const Complex & b)
+{
+  return abs(a.c) < abs(b.c);
+}
+bool khairullin::operator==(const Complex & a, const Complex & b)
+{
+  return a.c == b.c;
+}
+bool khairullin::operator!=(const Complex & a, const Complex & b)
+{
+  return a.c != b.c;
+}
+
 khairullin::IOGuard::IOGuard(std::basic_ios< char > & s):
-s_(s),
-width_(s.width()),
-precision_(s.precision()),
-fill_(s.fill()),
-fmtflags_(s.flags())
-{}
+  s_(s),
+  width_(s.width()),
+  precision_(s.precision()),
+  fill_(s.fill()),
+  fmtflags_(s.flags())
+{
+}
 
 khairullin::IOGuard::~IOGuard()
 {
