@@ -87,8 +87,8 @@ bool khairullin::Polygon::cross(const Polygon & other) const
   Frame frame2 = other.getFrame();
   auto minFrame = std::min(frame1,frame2);
   auto maxFrame = std::max(frame1, frame2);
-  if (minFrame.pos.x + minFrame.width > maxFrame.pos.x &&
-    minFrame.pos.y + minFrame.height > maxFrame.pos.y) {
+  if (minFrame.pos.x + minFrame.width >= maxFrame.pos.x &&
+    minFrame.pos.y + minFrame.height >= maxFrame.pos.y) {
     return true;
   }
   return false;
