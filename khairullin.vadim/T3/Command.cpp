@@ -18,6 +18,10 @@ void khairullin::Command::function(std::istream & is)
   std::string command;
   std::getline(is, command, ' ');
   func_t func = commands[command];
+  if (func == nullptr) {
+    std::cout << "<INVALID COMMAND>\n";
+    return;
+  }
   try {
     (this->*func)(is);
   }
