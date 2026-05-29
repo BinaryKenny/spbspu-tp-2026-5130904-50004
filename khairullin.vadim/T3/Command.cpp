@@ -64,23 +64,15 @@ void khairullin::Command::max(std::istream & is)
   std::getline(is, parameter);
   double max = 0;
   if (parameter == "AREA") {
-    auto BiggestFigure = std::max_element(polygons.begin(), polygons.end(), [](Polygon & p1, Polygon & p2) {
-      return p1.area() < p2.area();
-    });
-    max = (*BiggestFigure).area();
+    auto biggest = std::max_element(polygons.begin(), polygons.end(), lessArea);
+    max = (*biggest).area();
+  }
+  else if (parameter == "VERTEXES") {
+    auto BiggestFigure = std::max_element(polygons.begin(), polygons.end(), lessVertexes);
+    max = (*BiggestFigure).points.size();
   }
   else {
-    size_t vertexes = 0;
-    try {
-      vertexes = std::stoi(parameter);
-    }
-    catch (...) {
-      throw std::logic_error("<INVALID COMMAND>");
-    }
-    auto BiggestFigure = std::max_element(polygons.begin(), polygons.end(), [](Polygon & p1, Polygon & p2) {
-      return p1.points.size() < p2.points.size();
-    });
-    max = (*BiggestFigure).points.size();
+    throw std::logic_error("<INVALID COMMAND>");
   }
   std::cout << max << "\n";
 }

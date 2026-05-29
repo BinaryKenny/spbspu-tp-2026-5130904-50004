@@ -15,6 +15,8 @@ namespace khairullin {
   std::ostream & operator<<(std::ostream & os, const Polygon & polygon);
   std::ostream & operator<<(std::ostream & os, const Point & point);
 
+  bool lessArea(const Polygon & p1, const Polygon & p2);
+  bool lessVertexes(const Polygon & p1, const Polygon & p2);
   bool isEqualTo(const Polygon & polygon, const size_t vertexes);
   bool hasCrossing(const Polygon & p1, const Polygon & p2);
   bool parity(const Polygon & polygon, const size_t num);

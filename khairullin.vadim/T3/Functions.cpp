@@ -60,6 +60,16 @@ std::ostream & khairullin::operator<<(std::ostream & os, const Point & point)
   return os;
 }
 
+bool khairullin::lessArea(const Polygon & p1, const Polygon & p2)
+{
+  return p1.area() < p2.area();
+}
+
+bool khairullin::lessVertexes(const Polygon & p1, const Polygon & p2)
+{
+  return p1.points.size() < p2.points.size();
+}
+
 bool khairullin::isEqualTo(const Polygon & polygon, const size_t vertexes)
 {
   return polygon.points.size() == vertexes;
