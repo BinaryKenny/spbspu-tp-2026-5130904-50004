@@ -83,23 +83,15 @@ void khairullin::Command::min(std::istream & is)
   std::getline(is, parameter);
   double min = 0;
   if (parameter == "AREA") {
-    auto SmallestFigure = std::min_element(polygons.begin(), polygons.end(), [](Polygon & p1, Polygon & p2) {
-      return p1.area() < p2.area();
-    });
-    min = (*SmallestFigure).area();
+    auto smallest = std::min_element(polygons.begin(), polygons.end(), lessArea);
+    min = (*smallest).area();
+  }
+  else if (parameter == "VERTEXES") {
+    auto smallest = std::min_element(polygons.begin(), polygons.end(), lessVertexes);
+    min = (*smallest).points.size();
   }
   else {
-    size_t vertexes = 0;
-    try {
-      vertexes = std::stoi(parameter);
-    }
-    catch (...) {
-      throw std::logic_error("<INVALID COMMAND>");
-    }
-    auto SmallestFigure = std::min_element(polygons.begin(), polygons.end(), [](Polygon & p1, Polygon & p2) {
-      return p1.points.size() < p2.points.size();
-    });
-    min = (*SmallestFigure).points.size();
+    throw std::logic_error("<INVALID COMMAND>");
   }
   std::cout << min << "\n";
 }
