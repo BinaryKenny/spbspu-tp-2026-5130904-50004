@@ -78,6 +78,22 @@ bool khairullin::parity(const Polygon & polygon, const size_t num)
   return polygon.points.size() % 2 == num;
 }
 
+double khairullin::areaParity(const Polygon & polygon, const int num)
+{
+  if (polygon.points.size() % 2 == num) {
+    return polygon.area();
+  }
+  return 0;
+}
+
+double khairullin::areaVertex(const Polygon & polygon, const int vertex)
+{
+  if (polygon.points.size() % 2 == vertex) {
+    return polygon.area();
+  }
+  return 0;
+}
+
 khairullin::Point khairullin::movePoint(const Point & point, const int num1, const int num2)
 {
   Point p = point;

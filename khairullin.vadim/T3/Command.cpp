@@ -34,22 +34,14 @@ void khairullin::Command::area(std::istream & is)
 {
   std::string parameter;
   std::getline(is, parameter);
-  double area = 0;
+  std::vector< double > areas;
   if (parameter == "EVEN") {
-    area = std::accumulate(polygons.begin(), polygons.end(), 0.0, [](double temp, Polygon & p) {
-      if (p.points.size() % 2 == 0) {
-        temp += p.area();
-      }
-      return temp;
-    });
+    auto ar = std::bind(areaParity, _1, 0);
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
   }
   else if (parameter == "ODD") {
-    area = std::accumulate(polygons.begin(), polygons.end(), 0.0, [](double temp, Polygon & p) {
-      if (p.points.size() % 2 != 0) {
-        temp += p.area();
-      }
-      return temp;
-    });
+    auto ar = std::bind(areaParity, _1, 1);
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
   }
   else {
     size_t vertexes = 0;
@@ -59,13 +51,10 @@ void khairullin::Command::area(std::istream & is)
     catch (...) {
       throw std::logic_error("<INVALID COMMAND>");
     }
-    area = std::accumulate(polygons.begin(), polygons.end(), 0.0, [=](double temp, Polygon & p) {
-      if (p.points.size() == vertexes) {
-        temp += p.area();
-      }
-      return temp;
-    });
+    auto ar = std::bind(areaVertex, _1, vertexes);
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
   }
+  double area = std::accumulate(areas.begin(), areas.end(), 0.0);
   std::cout << area << "\n";
 }
 
