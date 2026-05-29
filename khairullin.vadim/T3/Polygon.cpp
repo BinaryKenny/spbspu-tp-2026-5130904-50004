@@ -2,6 +2,23 @@
 #include <algorithm>
 #include <numeric>
 
+khairullin::Point::Point(int x, int y):
+  x(x),
+  y(y)
+{}
+
+khairullin::Point::Point(const Point & other):
+  x(other.x),
+  y(other.y)
+{}
+
+khairullin::Point & khairullin::Point::operator=(const Point & other)
+{
+  x = other.x;
+  y = other.y;
+  return *this;
+}
+
 bool khairullin::Point::operator<(const Point & other) const
 {
   if (x != other.x) {

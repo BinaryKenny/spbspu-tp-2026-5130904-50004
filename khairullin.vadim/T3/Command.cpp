@@ -169,7 +169,10 @@ void khairullin::Command::same(std::istream & is)
   Frame frame1 = pol.getFrame();
   int del_X = frame1.pos.x;
   int del_Y = frame1.pos.y;
-  auto move = std::bind(movePoint, _1, del_X, del_Y);
+  auto move = std::bind(movePolygon, _1, del_X, del_Y);
   auto copy = polygons;
   std::transform(copy.begin(), copy.end(), copy.begin(), move);
+  auto cmp = std::bind(std::equal_to<>(), _1, pol);
+  size_t count = std::count_if(copy.begin(), copy.end(), cmp);
+  std::cout << count << "\n";
 }
