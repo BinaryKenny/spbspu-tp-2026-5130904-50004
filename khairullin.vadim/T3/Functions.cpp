@@ -86,10 +86,12 @@ khairullin::Point khairullin::movePoint(const Point & point, const int num1, con
   return p;
 }
 
-khairullin::Polygon khairullin::movePolygon(Polygon & p, const int num1, const int num2)
+khairullin::Polygon khairullin::movePolygon(Polygon & p)
 {
-
-  auto move = std::bind(movePoint, std::placeholders::_1, num1, num2);
+  Frame frame = p.getFrame();
+  int x = frame.pos.x;
+  int y = frame.pos.y;
+  auto move = std::bind(movePoint, std::placeholders::_1, x, y);
   std::transform(p.points.begin(), p.points.end(), p.points.begin(), move);
   return p;
 }

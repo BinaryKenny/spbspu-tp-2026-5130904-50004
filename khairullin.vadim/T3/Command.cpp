@@ -152,7 +152,8 @@ void khairullin::Command::intersection(std::istream & is)
   std::getline(is, line);
   std::istringstream iss(line);
   Polygon polygon;
-  if (!(iss>>polygon)) {
+  iss >> polygon;
+  if (polygon.points.empty()) {
     throw std::logic_error("<INVALID COMMAND>");
   }
   auto cmp = std::bind(hasCrossing, _1, polygon);
@@ -173,10 +174,12 @@ void khairullin::Command::same(std::istream & is)
   Frame frame1 = pol.getFrame();
   int del_X = frame1.pos.x;
   int del_Y = frame1.pos.y;
-  auto move = std::bind(movePolygon, _1, del_X, del_Y);
+  auto move = std::bind(movePoint, _1, del_X, del_Y);
+  std::transform(pol.points.begin(), pol.points.end(), pol.points.begin(), move);
   std::vector< Polygon > copy = polygons;
-  std::transform(copy.begin(), copy.end(), copy.begin(), move);
+  std::transform(copy.begin(), copy.end(), copy.begin(), movePolygon);
   auto cmp = std::bind(std::equal_to<>(), _1, pol);
   size_t count = std::count_if(copy.begin(), copy.end(), cmp);
+  std::cout << pol << "\n";
   std::cout << count << "\n";
 }

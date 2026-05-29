@@ -20,6 +20,6 @@ namespace khairullin {
   bool parity(const Polygon & polygon, const size_t num);
 
   Point movePoint(const Point & point, const int num1, const int num2);
-  Polygon movePolygon(Polygon & p, const int num1, const int num2);
+  Polygon movePolygon(Polygon & p);
 }
 #endif //FUNCTIONS_H
