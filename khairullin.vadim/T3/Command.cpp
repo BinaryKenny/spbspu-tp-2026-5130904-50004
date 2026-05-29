@@ -13,6 +13,19 @@ khairullin::Command::Command()
   commands.insert({"SAME", &Command::same});
 }
 
+void khairullin::Command::function(std::istream & is)
+{
+  std::string command;
+  std::getline(is, command, ' ');
+  func_t func = commands[command];
+  try {
+    (this->*func)(is);
+  }
+  catch (std::logic_error & e) {
+    std::cout << e.what();
+  }
+}
+
 void khairullin::Command::area(std::istream & is)
 {
   std::string parameter;
@@ -112,11 +125,11 @@ void khairullin::Command::count(std::istream & is)
   std::getline(is, parameter);
   size_t count = 0;
   if (parameter == "EVEN") {
-    auto isEven = std::bind(isEqualTo, _1, 0);
+    auto isEven = std::bind(parity, _1, 0);
     count = std::count_if(polygons.begin(), polygons.end(), isEven);
   }
   else if (parameter == "ODD") {
-    auto isOdd = std::bind(isEqualTo, _1, 1);
+    auto isOdd = std::bind(parity, _1, 1);
     count = std::count_if(polygons.begin(), polygons.end(), isOdd);
   }
   else {
@@ -145,4 +158,18 @@ void khairullin::Command::intersection(std::istream & is)
   auto cmp = std::bind(hasCrossing, _1, polygon);
   size_t count = std::count_if(polygons.begin(), polygons.end(), cmp);
   std::cout << count << "\n";
+}
+
+void khairullin::Command::same(std::istream & is)
+{
+  Polygon pol;
+  if (!(is>>pol)) {
+    throw std::logic_error("<INVALID COMMAND>");
+  }
+  Frame frame1 = pol.getFrame();
+  int del_X = frame1.pos.x;
+  int del_Y = frame1.pos.y;
+  auto move = std::bind(movePoint, _1, del_X, del_Y);
+  auto copy = polygons;
+  std::transform(copy.begin(), copy.end(), copy.begin(), move);
 }

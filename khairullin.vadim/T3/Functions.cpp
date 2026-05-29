@@ -72,3 +72,16 @@ bool khairullin::hasCrossing(const Polygon & p1, const Polygon & p2)
   }
   return false;
 }
+
+bool khairullin::parity(const Polygon & polygon, const size_t num)
+{
+  return polygon.points.size() % 2 == num;
+}
+
+khairullin::Point khairullin::movePoint(const Point & point, const int num1, const int num2)
+{
+  Point p = point;
+  p.x -= num1;
+  p.y -= num2;
+  return p;
+}

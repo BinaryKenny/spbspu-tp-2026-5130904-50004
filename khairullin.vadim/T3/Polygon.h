@@ -7,6 +7,8 @@ namespace khairullin {
     int x = 0, y = 0;
 
     bool operator<(const Point & other) const;
+    bool operator==(const Point & other) const;
+    bool operator!=(const Point & other) const;
   };
 
   struct Frame {
@@ -28,6 +30,7 @@ namespace khairullin {
     double area() const;
     Frame getFrame() const;
     bool cross(const Polygon & other) const;
+    bool operator==(Polygon & other) const;
   };
 }
 #endif //POLYGON_H

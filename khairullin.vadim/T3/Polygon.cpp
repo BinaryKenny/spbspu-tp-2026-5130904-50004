@@ -13,6 +13,16 @@ bool khairullin::Point::operator<(const Point & other) const
   return false;
 }
 
+bool khairullin::Point::operator==(const Point & other) const
+{
+  return x == other.x && y == other.y;
+}
+
+bool khairullin::Point::operator!=(const Point & other) const
+{
+  return !(*this == other);
+}
+
 bool khairullin::Frame::operator<(const Frame & other) const
 {
   return pos < other.pos;
@@ -65,4 +75,16 @@ bool khairullin::Polygon::cross(const Polygon & other) const
     return true;
   }
   return false;
+}
+
+bool khairullin::Polygon::operator==(Polygon & other) const
+{
+  if (points.size() != other.points.size()) {
+    return false;
+  }
+  auto copy = *this;
+  auto otherCopy = other;
+  std::sort(copy.points.begin(), copy.points.end());
+  std::sort(otherCopy.points.begin(), otherCopy.points.end());
+  return copy.points == otherCopy.points;
 }

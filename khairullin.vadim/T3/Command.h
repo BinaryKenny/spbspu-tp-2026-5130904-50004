@@ -12,6 +12,8 @@ namespace khairullin {
 
     Command();
 
+    void function(std::istream &);
+
     void area(std::istream &);
     void max(std::istream &);
     void min(std::istream &);

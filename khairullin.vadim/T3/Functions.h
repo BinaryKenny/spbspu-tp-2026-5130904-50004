@@ -17,5 +17,8 @@ namespace khairullin {
 
   bool isEqualTo(const Polygon & polygon, const size_t vertexes);
   bool hasCrossing(const Polygon & p1, const Polygon & p2);
+  bool parity(const Polygon & polygon, const size_t num);
+
+  Point movePoint(const Point & point, const int num1, const int num2);
 }
 #endif //FUNCTIONS_H
