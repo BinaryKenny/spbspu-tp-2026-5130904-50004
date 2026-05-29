@@ -22,7 +22,7 @@ void khairullin::Command::function(std::istream & is)
     (this->*func)(is);
   }
   catch (std::logic_error & e) {
-    std::cout << e.what();
+    std::cout << e.what() << "\n";
   }
 }
 
@@ -163,14 +163,17 @@ void khairullin::Command::intersection(std::istream & is)
 void khairullin::Command::same(std::istream & is)
 {
   Polygon pol;
-  if (!(is>>pol)) {
+  std::string line = "";
+  std::getline(is, line);
+  std::istringstream iss(line);
+  if (pol.points.empty()) {
     throw std::logic_error("<INVALID COMMAND>");
   }
   Frame frame1 = pol.getFrame();
   int del_X = frame1.pos.x;
   int del_Y = frame1.pos.y;
   auto move = std::bind(movePolygon, _1, del_X, del_Y);
-  auto copy = polygons;
+  std::vector< Polygon > copy = polygons;
   std::transform(copy.begin(), copy.end(), copy.begin(), move);
   auto cmp = std::bind(std::equal_to<>(), _1, pol);
   size_t count = std::count_if(copy.begin(), copy.end(), cmp);
