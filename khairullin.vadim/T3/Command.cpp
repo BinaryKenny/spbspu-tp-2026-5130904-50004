@@ -100,7 +100,7 @@ void khairullin::Command::count(std::istream & is)
 {
   std::string parameter;
   std::getline(is, parameter);
-  size_t count = 0;
+  int count = 0;
   if (parameter == "EVEN") {
     auto isEven = std::bind(parity, _1, 0);
     count = std::count_if(polygons.begin(), polygons.end(), isEven);

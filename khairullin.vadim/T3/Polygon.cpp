@@ -50,7 +50,7 @@ double khairullin::Polygon::area() const
   double area = 0;
   std::vector< Point > points_2_to_1(points.size());
   std::copy(points.begin() + 1, points.end(), points_2_to_1.begin());
-  points_2_to_1[points.size() - 1] = points.back();
+  points_2_to_1[points.size() - 1] = points[0];
   area = std::inner_product(points.begin(), points.end(),
     points_2_to_1.begin(), 0.0, std::plus<>{}, [&](const Point & p1, const Point & p2) {
       return p1.x * p2.y - p1.y * p2.x;
