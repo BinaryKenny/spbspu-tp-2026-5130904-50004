@@ -166,6 +166,7 @@ void khairullin::Command::same(std::istream & is)
   std::string line = "";
   std::getline(is, line);
   std::istringstream iss(line);
+  iss >> pol;
   if (pol.points.empty()) {
     throw std::logic_error("<INVALID COMMAND>");
   }
