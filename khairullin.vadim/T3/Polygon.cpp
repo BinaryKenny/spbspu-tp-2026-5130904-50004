@@ -2,12 +2,6 @@
 #include "PointCompare.h"
 #include <algorithm>
 #include <numeric>
-
-bool khairullin::Frame::operator<(const Frame & other) const
-{
-  return pos < other.pos;
-}
-
 double khairullin::Polygon::area() const
 {
   double area = 0;

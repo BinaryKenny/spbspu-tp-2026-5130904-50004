@@ -2,21 +2,9 @@
 #define POLYGON_H
 #include <vector>
 #include "Point.h"
+#include "Frame.h"
 
 namespace khairullin {
-  struct Frame {
-    Point pos;
-    size_t width = 0, height = 0;
-    Frame() = default;
-    Frame(Point pos, int i, int i1):
-      pos(pos),
-      width(i),
-      height(i1)
-    {}
-
-    bool operator<(const Frame & other) const;
-  };
-
   struct Polygon {
     std::vector< Point > points;
 
