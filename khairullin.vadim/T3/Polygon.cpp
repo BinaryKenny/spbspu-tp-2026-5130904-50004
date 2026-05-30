@@ -9,27 +9,17 @@ double khairullin::Polygon::area() const
   std::copy(points.begin() + 1, points.end(), points_2_to_1.begin());
   points_2_to_1[points.size() - 1] = points[0];
   area = std::inner_product(points.begin(), points.end(),
-    points_2_to_1.begin(), 0.0, std::plus<>{}, [&](const Point & p1, const Point & p2) {
-      return p1.x * p2.y - p1.y * p2.x;
-    });
+    points_2_to_1.begin(), 0.0, std::plus<>{}, forArea);
   area = std::abs(area) / 2;
   return area;
 }
 
 khairullin::Frame khairullin::Polygon::getFrame() const
 {
-  auto pMaxX = std::max_element(points.begin(), points.end(), [&](const Point & p1, const Point & p2) {
-    return p1.x < p2.x;
-  });
-  auto pMaxY = std::max_element(points.begin(), points.end(), [](const Point & p1, const Point & p2) {
-    return p1.y < p2.y;
-  });
-  auto pMinX = std::min_element(points.begin(), points.end(), [](const Point & p1, const Point & p2) {
-    return p1.x < p2.x;
-  });
-  auto pMinY = std::min_element(points.begin(), points.end(), [](const Point & p1, const Point & p2) {
-    return p1.y < p2.y;
-  });
+  auto pMaxX = std::max_element(points.begin(), points.end(), cmpX);
+  auto pMaxY = std::max_element(points.begin(), points.end(), cmpY);
+  auto pMinX = std::min_element(points.begin(), points.end(), cmpX);
+  auto pMinY = std::min_element(points.begin(), points.end(), cmpY);
   int X_max = (*pMaxX).x;
   int Y_max = (*pMaxY).y;
   int X_min = (*pMinX).x;

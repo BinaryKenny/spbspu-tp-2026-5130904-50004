@@ -98,10 +98,15 @@ double khairullin::areaParity(const Polygon & polygon, const int num)
 
 double khairullin::areaVertex(const Polygon & polygon, const int vertex)
 {
-  if (polygon.points.size() % 2 == vertex) {
+  if (polygon.points.size() == vertex) {
     return polygon.area();
   }
   return 0;
+}
+
+bool khairullin::toAdd(const Polygon & p)
+{
+  return p.points.size();
 }
 
 khairullin::Point khairullin::movePoint(const Point & point, const int num1, const int num2)
