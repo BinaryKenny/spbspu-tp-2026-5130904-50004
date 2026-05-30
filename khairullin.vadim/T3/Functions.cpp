@@ -104,6 +104,11 @@ double khairullin::areaVertex(const Polygon & polygon, const int vertex)
   return 0;
 }
 
+double khairullin::allArea(const Polygon & polygon)
+{
+  return polygon.area();
+}
+
 bool khairullin::toAdd(const Polygon & p)
 {
   return p.points.size();

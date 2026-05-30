@@ -35,6 +35,7 @@ void khairullin::Command::area(std::istream & is)
   std::string parameter;
   std::getline(is, parameter);
   std::vector< double > areas;
+  double divide = 1;
   if (parameter == "EVEN") {
     auto ar = std::bind(areaParity, _1, 0);
     std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
@@ -42,6 +43,10 @@ void khairullin::Command::area(std::istream & is)
   else if (parameter == "ODD") {
     auto ar = std::bind(areaParity, _1, 1);
     std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
+  }
+  else if (parameter == "MEAN") {
+    std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), allArea);
+    divide = polygons.size();
   }
   else {
     size_t vertexes = 0;
@@ -55,7 +60,7 @@ void khairullin::Command::area(std::istream & is)
     std::transform(polygons.begin(), polygons.end(), std::back_inserter(areas), ar);
   }
   double area = std::accumulate(areas.begin(), areas.end(), 0.0);
-  std::cout << area << "\n";
+  std::cout << area / divide << "\n";
 }
 
 void khairullin::Command::max(std::istream & is)
