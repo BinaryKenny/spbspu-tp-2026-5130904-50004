@@ -100,7 +100,7 @@ void khairullin::Command::count(std::istream & is)
 {
   std::string parameter;
   std::getline(is, parameter);
-  int count = 0;
+  double count = 0;
   if (parameter == "EVEN") {
     auto isEven = std::bind(parity, _1, 0);
     count = std::count_if(polygons.begin(), polygons.end(), isEven);
@@ -134,7 +134,7 @@ void khairullin::Command::intersection(std::istream & is)
     throw std::logic_error("<INVALID COMMAND>");
   }
   auto cmp = std::bind(hasCrossing, _1, polygon);
-  size_t count = std::count_if(polygons.begin(), polygons.end(), cmp);
+  double count = std::count_if(polygons.begin(), polygons.end(), cmp);
   std::cout << count << "\n";
 }
 
@@ -156,7 +156,6 @@ void khairullin::Command::same(std::istream & is)
   std::vector< Polygon > copy = polygons;
   std::transform(copy.begin(), copy.end(), copy.begin(), movePolygon);
   auto cmp = std::bind(std::equal_to<>(), _1, pol);
-  size_t count = std::count_if(copy.begin(), copy.end(), cmp);
-  std::cout << pol << "\n";
+  double count = std::count_if(copy.begin(), copy.end(), cmp);
   std::cout << count << "\n";
 }
