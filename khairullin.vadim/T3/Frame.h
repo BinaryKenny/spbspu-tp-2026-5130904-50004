@@ -4,7 +4,7 @@
 namespace khairullin {
   struct Frame {
     Point pos;
-    size_t width = 0, height = 0;
+    int width = 0, height = 0;
     Frame() = default;
     Frame(Point pos, int i, int i1):
       pos(pos),

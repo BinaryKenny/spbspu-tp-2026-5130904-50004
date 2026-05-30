@@ -20,7 +20,6 @@ std::istream & khairullin::operator>>(std::istream & is, Point & point)
   if (!s) {
     return is;
   }
-  int x = 0, y = 0;
   is >> Delimiter{'('} >> point.x >> Delimiter{';'} >> point.y >> Delimiter{')'};
   return is;
 }
@@ -96,7 +95,7 @@ double khairullin::areaParity(const Polygon & polygon, const int num)
   return 0;
 }
 
-double khairullin::areaVertex(const Polygon & polygon, const int vertex)
+double khairullin::areaVertex(const Polygon & polygon, size_t vertex)
 {
   if (polygon.points.size() == vertex) {
     return polygon.area();

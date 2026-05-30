@@ -2,7 +2,6 @@
 #define FUNCTIONS_H
 #include "Polygon.h"
 #include "Delimiter.h"
-#include <string>
 #include <sstream>
 #include <iostream>
 
@@ -21,7 +20,7 @@ namespace khairullin {
   bool hasCrossing(const Polygon & p1, const Polygon & p2);
   bool parity(const Polygon & polygon, const size_t num);
   double areaParity(const Polygon & polygon, const int num);
-  double areaVertex(const Polygon & polygon, const int vertex);
+  double areaVertex(const Polygon & polygon, size_t vertex);
   double allArea(const Polygon & polygon);
   bool toAdd(const Polygon & p);
 
