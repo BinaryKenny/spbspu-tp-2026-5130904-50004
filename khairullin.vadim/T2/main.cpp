@@ -143,39 +143,39 @@ std::istream & khairullin::operator>>(std::istream & is, DataStruct & d)
   }
   DataStruct temp;
   DataStruct null;
-  is >> Delimeter{'('};
+  std::string line = "";
+  std::getline(is, line);
+  std::istringstream iss(line);
+  iss >> Delimeter{'('};
   bool isKey1 = false, isKey2 = false, isKey3 = false;
   for (size_t i = 0; i < 3; i++) {
     std::string key = "";
-    if (!is) {
+    if (!iss) {
       d = null;
       return is;
     }
-    is >> key;
-    if (is && (key == ":key1" && !isKey1)) {
+    iss >> key;
+    if (iss && (key == ":key1" && !isKey1)) {
       char a = 0, b = 0;
-      is >> std::ws >> temp.key1 >> a >> b;
+      iss >> std::ws >> temp.key1 >> a >> b;
       if (a != b && (a == 'L' || a == 'l')) {
-        is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         d = null;
         return is;
       }
       isKey1 = true;
-    } else if (is && (key == ":key2" && !isKey2)) {
-      is >> std::ws >> Delimeter{'#'} >> Delimeter{'c'} >> temp.key2;
+    } else if (iss && (key == ":key2" && !isKey2)) {
+      iss >> std::ws >> Delimeter{'#'} >> Delimeter{'c'} >> temp.key2;
       isKey2 = true;
-    } else if (is && (key == ":key3" && !isKey3)) {
-      is >> std::ws >> std::quoted(temp.key3);
+    } else if (iss && (key == ":key3" && !isKey3)) {
+      iss >> std::ws >> std::quoted(temp.key3);
       isKey3 = true;
     } else {
-      is.clear();
-      is.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
       d = null;
       return is;
     }
   }
-  is >> Delimeter{':'} >> Delimeter{')'};
-  if (is) {
+  iss >> Delimeter{':'} >> Delimeter{')'};
+  if (iss) {
     d = temp;
   }
   else {
