@@ -18,7 +18,7 @@ points(p)
   pos.y = y;
 }
 
-double khairullin::Polygon::getArea()
+double khairullin::Polygon::getArea() const
 {
   size_t n = points.size();
   double area = 0;
@@ -31,7 +31,7 @@ double khairullin::Polygon::getArea()
   return area;
 }
 
-khairullin::rectangle_t khairullin::Polygon::getFrameRect()
+khairullin::rectangle_t khairullin::Polygon::getFrameRect() const
 {
   size_t n = points.size();
   double x_min = points[0].x;

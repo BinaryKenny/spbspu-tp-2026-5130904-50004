@@ -3,17 +3,16 @@
 khairullin::Rectangle::Rectangle(point_t p, double a, double b):
 Shape(),
 width(a),
-length(b)
-{
-  pos = p;
-}
+length(b),
+pos(p)
+{}
 
-double khairullin::Rectangle::getArea()
+double khairullin::Rectangle::getArea() const
 {
   return width * length;
 }
 
-khairullin::rectangle_t khairullin::Rectangle::getFrameRect()
+khairullin::rectangle_t khairullin::Rectangle::getFrameRect() const
 {
   return khairullin::rectangle_t{pos, width, length};
 }

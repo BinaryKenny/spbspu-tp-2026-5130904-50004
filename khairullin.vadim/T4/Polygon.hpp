@@ -10,8 +10,8 @@ namespace khairullin
   {
     std::vector<point_t> points;
     Polygon(std::vector<point_t> p);
-    virtual double getArea();
-    virtual rectangle_t getFrameRect();
+    virtual double getArea() const;
+    virtual rectangle_t getFrameRect() const;
     virtual void move(point_t p);
     virtual void scale(double k);
     virtual ~Polygon() = default;

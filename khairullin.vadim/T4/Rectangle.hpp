@@ -8,8 +8,8 @@ namespace khairullin
   {
     double width, length;
     Rectangle(point_t p, double a, double b);
-    virtual double getArea();
-    virtual rectangle_t getFrameRect();
+    virtual double getArea() const;
+    virtual rectangle_t getFrameRect() const;
     virtual void move(point_t p);
     virtual void scale(double k);
     virtual ~Rectangle() = default;
