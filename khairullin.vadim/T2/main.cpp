@@ -1,11 +1,12 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cassert>
 #include <iterator>
 #include <vector>
 #include <iomanip>
 #include <complex>
+
+static const size_t COUNT_OF_KEYS = 3;
 
 namespace khairullin {
   struct IntLL {
@@ -148,7 +149,7 @@ std::istream & khairullin::operator>>(std::istream & is, DataStruct & d)
   std::istringstream iss(line);
   iss >> Delimeter{'('};
   bool isKey1 = false, isKey2 = false, isKey3 = false;
-  for (size_t i = 0; i < 3; i++) {
+  for (size_t i = 0; i < COUNT_OF_KEYS; i++) {
     std::string key = "";
     if (!iss) {
       d = null;
