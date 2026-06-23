@@ -41,7 +41,7 @@ bool khairullin::Polygon::cross(const Polygon & other) const
   return false;
 }
 
-bool khairullin::Polygon::operator==(Polygon & other) const
+bool khairullin::Polygon::operator==(const Polygon & other) const
 {
   if (points.size() != other.points.size()) {
     return false;

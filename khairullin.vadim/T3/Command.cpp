@@ -13,7 +13,7 @@ khairullin::Command::Command()
   commands.insert({"SAME", &Command::same});
 }
 
-void khairullin::Command::function(std::istream & is)
+void khairullin::Command::function(std::istream & is) const
 {
   std::string command;
   std::getline(is, command, ' ');
@@ -30,7 +30,7 @@ void khairullin::Command::function(std::istream & is)
   }
 }
 
-void khairullin::Command::area(std::istream & is)
+void khairullin::Command::area(std::istream & is) const
 {
   std::string parameter;
   std::getline(is, parameter);
@@ -63,7 +63,7 @@ void khairullin::Command::area(std::istream & is)
   std::cout << area / divide << "\n";
 }
 
-void khairullin::Command::max(std::istream & is)
+void khairullin::Command::max(std::istream & is) const
 {
   std::string parameter;
   std::getline(is, parameter);
@@ -82,7 +82,7 @@ void khairullin::Command::max(std::istream & is)
   std::cout << max << "\n";
 }
 
-void khairullin::Command::min(std::istream & is)
+void khairullin::Command::min(std::istream & is) const
 {
   std::string parameter;
   std::getline(is, parameter);
@@ -101,7 +101,7 @@ void khairullin::Command::min(std::istream & is)
   std::cout << min << "\n";
 }
 
-void khairullin::Command::count(std::istream & is)
+void khairullin::Command::count(std::istream & is) const
 {
   std::string parameter;
   std::getline(is, parameter);
@@ -128,7 +128,7 @@ void khairullin::Command::count(std::istream & is)
   std::cout << count << "\n";
 }
 
-void khairullin::Command::intersection(std::istream & is)
+void khairullin::Command::intersection(std::istream & is) const
 {
   std::string line = "";
   std::getline(is, line);
@@ -143,7 +143,7 @@ void khairullin::Command::intersection(std::istream & is)
   std::cout << count << "\n";
 }
 
-void khairullin::Command::same(std::istream & is)
+void khairullin::Command::same(std::istream & is) const
 {
   Polygon pol;
   std::string line = "";
